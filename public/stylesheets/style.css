@@ -1,0 +1,61 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  overflow-x : hidden;
+}
+
+a {
+  color: #00B7FF;
+}
+
+.form-horizontal{
+    width : 500px;
+}
+fieldset legend{
+    border-bottom : 0px;
+}
+
+.table{
+    width : 70%;
+}
+.center{
+    width: 150px;
+    // margin: 40px auto;
+  
+}
+
+.input-number{
+    margin-top : 10px;
+}
+.input-group-btn:first-child>.btn{
+    margin-right: -2px;
+}
+
+
+.table>tbody>tr>th{
+    vertical-align: middle;
+}
+
+.panel {
+    display: none;
+    width: 100px;
+    background: #ccc;
+    min-height: 20px;
+    position: absolute
+}
+
+
+.left-nav-bar{
+    width : 100px;
+    position : fixed;
+}
+
+button{
+    margin-top : 10px;
+    margin-bottom : 10px;
+}
+
+.main{
+    width : 100%;
+    margin-left : 200px;
+}

@@ -1,0 +1,43 @@
+form.form-horizontal#manually-input-form(action='shoppingcart', method='post')
+  - var object_list = [["五常大米250g","食品", "21.1"], ["12年芝华士","酒类", "117"], ["佳洁士牙刷全优7效两支装","个护用品", "17"]];
+  fieldset
+  .container.item-wrapper
+    table.table
+      thread
+        tr
+          th 商品名称
+          th 品类
+          th 不含税价格
+          th 含税总额          
+          th 数量
+        each item, index in object_list
+          tr
+            th
+              input(name='name-'+index value=item[0])
+            th
+              input(data-panel="" class="category-"+index name='category-'+index value=item[1])
+              //- div(class="panel panel-quant-" + index)
+              //-     p 税金 5%
+            th
+              input(class="price-quant-"+index name="price-"+index value=item[2])
+            th(class="form-item-total-fee total-with-tax-quant-"+index) 0
+              
+            th 
+              .center
+                .input-group
+                  span.input-group-btn
+                    button(type="button" class="btn btn-default btn-number left" disabled="disabled" data-type="minus" data-field="quant-"+index)   
+                      span(class="glyphicon-minus")
+                  input(type="text" name="quant-"+index class="form-control input-number count-"+index value="0" min="0" max="10000" i=index)
+                  span.input-group-btn
+                    button(type="button" class="btn btn-default btn-number" data-type="plus" data-field="quant-"+index)
+                      span(class="glyphicon-plus")                    
+        tr
+          th
+          th
+          th
+          th
+          th
+            span 合计
+            span.total-fee
+  button.btn.primary-btn(type="submit") 提交订单

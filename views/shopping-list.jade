@@ -1,0 +1,45 @@
+extends layout
+block script
+  script(src="/javascripts/shopping-cart.js")
+block content
+  - var data = record;
+  - console.log("record in jade file", data);
+  // - var tax = {"食品":0.05, "酒类":0.3, "其它":0.1};
+  legend 订单信息
+  .left-nav-bar
+
+  .main
+    .container.item-wrapper
+      table.table
+        thread
+          tr 
+            th 商品名称
+            th 不含税价格
+            th 数量
+            th 税额
+            th 应付金额
+            th(style="display:none") 品类
+          each item, index in data
+            tr
+              th(class="item-name-"+index)= item[0]
+              th(class="item-price-"+index)= item[2]
+              th(class="item-count-"+index)= item[3]
+              th(class="item-tax-fee-"+index)
+              th(class="total item-total-fee-"+index)
+              th(class="item-category-"+index style="display:none;")= item[1]
+          tr
+            th
+            th
+            th
+            th
+            th
+              span 所交税额 
+              span.total-tax-fee
+          tr
+            th
+            th
+            th
+            th
+            th
+              span 合计    
+              span.total-fee 

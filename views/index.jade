@@ -1,0 +1,14 @@
+extends layout
+block script
+  script(src="/javascripts/tax.js")
+
+block content
+  legend 选择一个提交方式
+  .left-nav-bar
+    button.btn.default-btn#upload-file-btn 提交购物列表文件
+    button.btn.default-btn#manually-input-btn 手动选择购物项目
+  .main
+    block upload-file
+      include upload-file
+    block shopping-form
+      include shopping-form
