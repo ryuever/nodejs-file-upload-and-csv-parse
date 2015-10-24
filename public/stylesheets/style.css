@@ -59,3 +59,35 @@ button{
     width : 100%;
     margin-left : 200px;
 }
+
+
+table>tbody>tr>th>input:first-child{
+    border : 0px;
+}
+
+table>tbody>tr>th:first-child input{
+    width : 200px;
+}
+
+table>tbody>tr>th:nth-child(2) input{
+    width : 100px;
+}
+
+table>tbody>tr>th:nth-child(3) input{
+    width : 100px;
+}
+.total-fee{
+    margin-left : 10px;
+}
+
+.list-total-tax-fee{
+    margin-left : 5px;
+}
+
+.list-total-fee{
+    margin-left : 35px;
+}
+
+.form-total-fee{
+    margin-left : 10px;
+}

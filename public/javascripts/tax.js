@@ -68,10 +68,10 @@ $("document").ready(function(){
         var total_fee = 0;
         for(var i = 0; i<t.length; i++){
             console.log(t[i].innerHTML);
-            total_fee = total_fee + parseFloat(t[i].innerHTML);            
+            total_fee = total_fee + parseFloat((parseFloat(t[i].innerHTML)).toFixed(2));            
         }
         console.log(total_fee);
-        $('.total-fee').text(total_fee.toFixed(2));
+        $('.form-total-fee').text(total_fee.toFixed(2));
     });
     $(".input-number").keydown(function (e) {
         // Allow: backspace, delete, tab, escape, enter and .

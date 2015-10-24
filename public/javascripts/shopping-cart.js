@@ -23,6 +23,6 @@ $("document").ready(function(){
         total_value = total_value + parseFloat(total_price.toFixed(2));
         total_tax_fee = total_tax_fee + tax_fee;
     }
-    $('.total-tax-fee').text(parseFloat(total_tax_fee.toFixed(3)));
-    $('.total-fee').text(parseFloat(total_value.toFixed(2)));
+    $('.list-total-tax-fee').text(parseFloat(total_tax_fee.toFixed(3)));
+    $('.list-total-fee').text(parseFloat(total_value.toFixed(2)));
 });
