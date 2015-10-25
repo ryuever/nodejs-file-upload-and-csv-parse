@@ -13,14 +13,16 @@ form.form-horizontal#manually-input-form(action='shoppingcart', method='post')
         each item, index in object_list
           tr
             th
-              input(name='name-'+index value=item[0])
+              input(name='name-'+index value=item[0] readonly)
             th
-              input(data-panel="" class="category-"+index name='category-'+index value=item[1])
-              //- div(class="panel panel-quant-" + index)
-              //-     p 税金 5%
+              input(data-panel="" class="category-"+index name='category-'+index value=item[1] readonly)
+              span(class="tax-helper" id='tax-helper-'+index i=index)
+              
+              //- div(class="tax-helper panel tax-" + index)
+              //-     p(class="tax-helper-p" id="tax-helper-"+index ppp=index)
             th
-              input(class="price-quant-"+index name="price-"+index value=item[2])
-            th(class="form-item-total-fee total-with-tax-quant-"+index) 0
+              input(class="price-quant-"+index name="price-"+index value=item[2] readonly)
+            th(class="form-item-total-fee total-with-tax-quant-"+index readonly) 0
               
             th 
               .center

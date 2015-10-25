@@ -60,9 +60,9 @@ button{
     margin-left : 200px;
 }
 
-
 table>tbody>tr>th>input:first-child{
     border : 0px;
+    readonly: readonly;
 }
 
 table>tbody>tr>th:first-child input{
@@ -90,4 +90,9 @@ table>tbody>tr>th:nth-child(3) input{
 
 .form-total-fee{
     margin-left : 10px;
+}
+
+.tax-helper{
+    display : block;
+    font-size : 10px;                  
 }

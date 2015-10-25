@@ -1,5 +1,21 @@
 $("document").ready(function(){
     var tax_list = {"食品":0.05, "酒类":0.3, "其它":0.1};
+
+    var tax_helper_list = document.getElementsByClassName('tax-helper');
+    var tax_helper_category = "";
+    var tax_helper_indicator = "";
+    var tax_helper_tax = "";
+    for (var tax_helper_i = 0; tax_helper_i < tax_helper_list.length; tax_helper_i++){
+
+        console.log("tax_helper_indicator", tax_helper_indicator, tax_helper_list[tax_helper_i]);
+        tax_helper_indicator = tax_helper_list[tax_helper_i].attributes['i'].value;
+        tax_helper_category = $('.category-'+tax_helper_indicator).val();
+        tax_helper_tax = parseFloat((tax_helper_category in tax_list)? tax_list[tax_helper_category] : 0.1);
+        // $("#tax-helper-"+tax_helper_indicator).text(tax_helper_tax);
+        $("#tax-helper-"+tax_helper_indicator).text("税 " + tax_helper_tax);
+    }
+
+    
     $('.btn-number').click(function(e){
         e.preventDefault();        
         fieldName = $(this).attr('data-field');
@@ -89,15 +105,30 @@ $("document").ready(function(){
         }
     });
 
-    $('.item-wrapper a').mouseenter(function () {
-        $('.panel').show();
+    // $('.item-wrapper a').mouseenter(function () {
+    //     $('.panel').show();
+    //     if ($(this).data('panel')) {
+    //         $('.panel').hide();
+    //         // $('#' + $(this).data('panel')).show();
+    //     }
+    // });
+    // $('.item-wrapper a').mouseleave(function () {
+    //     $('.panel').hide();
+    // });
+    $('#tax-0').mouseover(function () {
+        alert("tax helper");
+        $(this).show();
+        // var i = $(this).attr('i');
+        
+        // $('.panel').show();
         // if ($(this).data('panel')) {
         //     $('.panel').hide();
         //     // $('#' + $(this).data('panel')).show();
         // }
     });
-    $('.item-wrapper a').mouseleave(function () {
-        $('.panel').hide();
+    $('.tax-helper').mouseleave(function () {
+        $(this).hide();
+        // $('.panel').hide();
     });
 
     $("#upload-file-btn").click(function(){
