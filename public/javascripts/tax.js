@@ -1,5 +1,12 @@
 $("document").ready(function(){
+
     var tax_list = {"食品":0.05, "酒类":0.3, "其它":0.1};
+
+    var init_input_number = document.getElementsByClassName('input-number');
+
+    for (var i = 0; i < init_input_number.length; i++){
+        $("#input-number-"+i).val(0);
+    }
 
     var tax_helper_list = document.getElementsByClassName('tax-helper');
     var tax_helper_category = "";
@@ -43,9 +50,11 @@ $("document").ready(function(){
             input.val(0);
         }
     });
-    $('.input-number').focusin(function(){
-        $(this).data('oldValue', $(this).val());
-    });
+    
+    // $('.input-number').focusin(function(){
+    //     $(this).data('oldValue', $(this).val());
+    // });
+    
     $('.input-number').change(function() {        
         var minValue =  parseInt($(this).attr('min'));
         var maxValue =  parseInt($(this).attr('max'));
@@ -56,7 +65,7 @@ $("document").ready(function(){
         
         var tax = parseFloat((category in tax_list)? tax_list[category] : 0.1);       
         var price = parseFloat($('.price-quant-'+indicator).val());
-        var count = parseInt($('.count-'+indicator).val());
+        var count = parseInt($('#input-number-'+indicator).val());
 
         console.log("tax, price, count", category, tax, price, count);
 
@@ -87,21 +96,21 @@ $("document").ready(function(){
         console.log(total_fee);
         $('.form-total-fee').text(total_fee.toFixed(2));
     });
-    $(".input-number").keydown(function (e) {
-        // Allow: backspace, delete, tab, escape, enter and .
-        if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 190]) !== -1 ||
-            // Allow: Ctrl+A
-            (e.keyCode == 65 && e.ctrlKey === true) || 
-            // Allow: home, end, left, right
-            (e.keyCode >= 35 && e.keyCode <= 39)) {
-            // let it happen, don't do anything
-            return;
-        }
-        // Ensure that it is a number and stop the keypress
-        if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
-            e.preventDefault();
-        }
-    });
+    // $(".input-number").keydown(function (e) {
+    //     // Allow: backspace, delete, tab, escape, enter and .
+    //     if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 190]) !== -1 ||
+    //         // Allow: Ctrl+A
+    //         (e.keyCode == 65 && e.ctrlKey === true) || 
+    //         // Allow: home, end, left, right
+    //         (e.keyCode >= 35 && e.keyCode <= 39)) {
+    //         // let it happen, don't do anything
+    //         return;
+    //     }
+    //     // Ensure that it is a number and stop the keypress
+    //     if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+    //         e.preventDefault();
+    //     }
+    // });
 
     $("#upload-file-btn").click(function(){
         $("#manually-input-form").hide();

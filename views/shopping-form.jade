@@ -30,7 +30,7 @@ form.form-horizontal#manually-input-form(action='shoppingcart', method='post')
                   span.input-group-btn
                     button(type="button" class="btn btn-default btn-number left" disabled="disabled" data-type="minus" data-field="quant-"+index)   
                       span(class="glyphicon-minus")
-                  input(type="text" name="quant-"+index class="form-control input-number count-"+index value="0" min="0" max="10000" i=index)
+                  input(type="text" name="quant-"+index class="form-control input-number" id='input-number-'+index value="0" min="0" max="10000" i=index)
                   span.input-group-btn
                     button(type="button" class="btn btn-default btn-number" data-type="plus" data-field="quant-"+index)
                       span(class="glyphicon-plus")                    
