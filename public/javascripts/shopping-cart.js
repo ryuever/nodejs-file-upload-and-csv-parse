@@ -25,4 +25,6 @@ $("document").ready(function(){
     }
     $('.list-total-tax-fee').text(parseFloat(total_tax_fee.toFixed(3)));
     $('.list-total-fee').text(parseFloat(total_value.toFixed(2)));
+
+
 });

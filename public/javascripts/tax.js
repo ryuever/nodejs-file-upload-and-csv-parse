@@ -14,7 +14,6 @@ $("document").ready(function(){
         // $("#tax-helper-"+tax_helper_indicator).text(tax_helper_tax);
         $("#tax-helper-"+tax_helper_indicator).text("税 " + tax_helper_tax);
     }
-
     
     $('.btn-number').click(function(e){
         e.preventDefault();        
@@ -48,9 +47,9 @@ $("document").ready(function(){
         $(this).data('oldValue', $(this).val());
     });
     $('.input-number').change(function() {        
-        minValue =  parseInt($(this).attr('min'));
-        maxValue =  parseInt($(this).attr('max'));
-        valueCurrent = parseInt($(this).val());
+        var minValue =  parseInt($(this).attr('min'));
+        var maxValue =  parseInt($(this).attr('max'));
+        var valueCurrent = parseInt($(this).val());
         var name = $(this).attr('name');
         var indicator = $(this).attr('i');
         var category = $('.category-'+indicator).val();
@@ -80,7 +79,6 @@ $("document").ready(function(){
         }
 
         var t = document.getElementsByClassName("form-item-total-fee");
-        console.log("t", t);
         var total_fee = 0;
         for(var i = 0; i<t.length; i++){
             console.log(t[i].innerHTML);
@@ -105,32 +103,6 @@ $("document").ready(function(){
         }
     });
 
-    // $('.item-wrapper a').mouseenter(function () {
-    //     $('.panel').show();
-    //     if ($(this).data('panel')) {
-    //         $('.panel').hide();
-    //         // $('#' + $(this).data('panel')).show();
-    //     }
-    // });
-    // $('.item-wrapper a').mouseleave(function () {
-    //     $('.panel').hide();
-    // });
-    $('#tax-0').mouseover(function () {
-        alert("tax helper");
-        $(this).show();
-        // var i = $(this).attr('i');
-        
-        // $('.panel').show();
-        // if ($(this).data('panel')) {
-        //     $('.panel').hide();
-        //     // $('#' + $(this).data('panel')).show();
-        // }
-    });
-    $('.tax-helper').mouseleave(function () {
-        $(this).hide();
-        // $('.panel').hide();
-    });
-
     $("#upload-file-btn").click(function(){
         $("#manually-input-form").hide();
         $("#upload-file-form").show();
@@ -140,14 +112,16 @@ $("document").ready(function(){
         $("#manually-input-form").show();
     });
 
-
-    // $("#manually-input-form").click(function(event){
-    //     event.preventDefault();
-    //     $.post({
-            
-
-
-    //     })
-
-    // })
+    $("#submit-form").click(function(event){
+        event.preventDefault();
+        $('.modal-confirm').modal('show');                
+    });
+    
+    $('.modal-footer .submit').click(function(){
+        console.log('nihao');
+        $("#manually-input-form").submit();        
+    });
+    
+    $('.modal-confirm .modal-header').text('提示');
+	$('.modal-confirm .modal-body p').html('确认是否提交');    
 });
