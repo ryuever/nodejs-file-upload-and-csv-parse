@@ -1,3 +1,45 @@
+var msg = '';
+var req_ori = "";
+
+var validateFile = function(){
+    var input = '';
+    input = document.getElementById('fileinput');
+    var extension_allowed = [".csv"];
+    if (!input) {
+        // msg = "Um, couldn't find the fileinput element.";
+        msg = "没有file element";
+    }
+    else if (!input.files) {
+        // msg = "This browser doesn't seem to support the `files` property of file inputs.";
+        msg = "浏览器不支持文件上传";
+    }
+    else if (!input.files[0]) {
+        // msg = "Please select a file before clicking 'Load'";
+        msg = "请先选择一个文件";
+    }
+    else {
+        file = input.files[0];
+        var file_extension = /\.[^\.]+/.exec(file.name);
+        var file_size = file.size;                   // in bytes;
+        if(!contains(extension_allowed, file_extension)){
+            // msg = "file extension is not allowed";
+            msg = "文件后缀应该是.csv";
+        }
+        var maxSizeOfFile=1000;
+        if((file_size / 1024) > maxSizeOfFile){
+            msg = "File " + file.name + " is " + file.size + " bytes in size";
+        }
+    }
+};    
+
+var contains = function(arr, item){
+    for (var i =0; i < arr.length; i++){
+        if (item == arr[i])
+            return true;
+    }
+    return false;
+};
+
 $("document").ready(function(){
 
     var tax_list = {"食品":0.05, "酒类":0.3, "其它":0.1};
@@ -13,12 +55,10 @@ $("document").ready(function(){
     var tax_helper_indicator = "";
     var tax_helper_tax = "";
     for (var tax_helper_i = 0; tax_helper_i < tax_helper_list.length; tax_helper_i++){
-
         console.log("tax_helper_indicator", tax_helper_indicator, tax_helper_list[tax_helper_i]);
         tax_helper_indicator = tax_helper_list[tax_helper_i].attributes['i'].value;
         tax_helper_category = $('.category-'+tax_helper_indicator).val();
         tax_helper_tax = parseFloat((tax_helper_category in tax_list)? tax_list[tax_helper_category] : 0.1);
-        // $("#tax-helper-"+tax_helper_indicator).text(tax_helper_tax);
         $("#tax-helper-"+tax_helper_indicator).text("税 " + tax_helper_tax);
     }
     
@@ -121,16 +161,40 @@ $("document").ready(function(){
         $("#manually-input-form").show();
     });
 
-    $("#submit-form").click(function(event){
+    $("#submit-form").click(function(event){        
         event.preventDefault();
-        $('.modal-confirm').modal('show');                
+        req_org = "form";
+        $('.modal-confirm .modal-header').text('提示');
+	    $('.modal-confirm .modal-body p').html('确认是否提交');
+        // $('.modal-footer .submit').attr('id', "form-sumbit-confirm-btn");
+        // $('.modal-footer #form-submit-confirm-btn').click(function(){
+        //     $("#manually-input-form").submit();
+        //     console.log("nihe");
+        // });
+        $('.modal-confirm').modal('show');
     });
+
+    $("#file-submit").click(function(event){
+        event.preventDefault();
+        msg = "";
+        validateFile();
+        req_org = "file";
+        if(msg){
+            $('.modal-alert .modal-header').text("提示");
+	        $('.modal-alert .modal-body p').text(msg);    
+            $('.modal-alert').modal('show');            
+        }else{
+            $('.modal-confirm .modal-header').text('提示');
+	        $('.modal-confirm .modal-body p').html('确认是否提交文件');
+            $('.modal-confirm').modal('show');
+        }
+    });        
     
     $('.modal-footer .submit').click(function(){
-        console.log('nihao');
-        $("#manually-input-form").submit();        
+        if(req_org == "file"){
+            $("#upload-file-form").submit();
+        }else if(req_org == "form"){
+            $("#manually-input-form").submit();
+        }
     });
-    
-    $('.modal-confirm .modal-header').text('提示');
-	$('.modal-confirm .modal-body p').html('确认是否提交');    
 });

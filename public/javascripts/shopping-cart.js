@@ -1,5 +1,4 @@
 $("document").ready(function(){    
-
     var price = 0;
     var tax = 0;
     var count = 0;
@@ -25,6 +24,4 @@ $("document").ready(function(){
     }
     $('.list-total-tax-fee').text(parseFloat(total_tax_fee.toFixed(3)));
     $('.list-total-fee').text(parseFloat(total_value.toFixed(2)));
-
-
 });

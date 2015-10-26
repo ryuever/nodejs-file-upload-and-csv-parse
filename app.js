@@ -1,7 +1,8 @@
 /**
- * Module dependencies.
- */
-
+ * Node.js nodejs-file-upload-and-csv-parse
+ * website http://123.57.150.234:3010
+ * Copyright (c) 2015 Liu Youchao
+ **/
 var express = require('express');
 var  format = require('util').format;
 var routes = require('./routes');
@@ -14,6 +15,7 @@ var fs = require('fs');
 
 var app = express();
 
+var csv = require('fast-csv');
 // all environments
 app.set('port', process.env.PORT || 3010);
 app.set('views', path.join(__dirname, 'views'));
@@ -39,16 +41,13 @@ app.get('/', routes.index);
 app.get('/users', user.list);
 
 app.post("/shoppingcart", function (req, res) { 
-	//get the file name
-    console.log(req.body);
     if(req.files){        
 	    var filename=req.files.file.name;
 	    var extensionAllowed=[".docx",".doc", ".csv"];
-	    var maxSizeOfFile=10000;
+	    var maxSizeOfFile=1000;
 	    var msg="";
 	    var i = filename.lastIndexOf('.');
-
-	    console.log('filename', filename);
+        
 	    // get the temporary location of the file
         var tmp_path = req.files.file.path;
         
@@ -56,25 +55,36 @@ app.post("/shoppingcart", function (req, res) {
         var target_path = __dirname +'/upload/' + req.files.file.name;
 	    
         var file_extension= (i < 0) ? '' : filename.substr(i);
-	    if((file_extension in oc(extensionAllowed))&&((req.files.file.size /1024 )< maxSizeOfFile)){
-            console.log("tmp_path ", tmp_path);
+	    if((contains(extensionAllowed, file_extension))&&((req.files.file.size /1024 )< maxSizeOfFile)){            
 		    fs.rename(tmp_path, target_path, function(err) {
                 if (err) throw err;
-                // delete the temporary file, so that the explicitly set temporary upload dir does not get filled with unwanted files
+                // delete the temporary file, so that the explicitly set temporary upload dir does
+                // not get filled with unwanted files
 			    fs.unlink(tmp_path, function() {
 				    if (err) throw err; 
 			    });
 		    });
-            var tmp_record = parseCSV(res);
-            console.log('tmp_record is ', tmp_record);
+            var tmp_record = [];
+            csv
+                .fromPath('upload/' + req.files.file.name)
+                .on("data", function(data){
+                    console.log(data);
+                    tmp_record.push(data);
+                })
+                .on("end", function(){
+                    console.log("done");
+                    console.log("record in file", tmp_record);            
+                    res.render("shopping-list", {record:tmp_record});            
+                });
 		    msg="File uploaded sucessfully";
-            
 	    }else{
-	        // delete the temporary file, so that the explicitly set temporary upload dir does not get filled with unwanted files
+	        // delete the temporary file, so that the explicitly set temporary upload dir does
+            // not get filled with unwanted files
 		    fs.unlink(tmp_path, function(err) {
                 if (err) throw err; 
             });
 		    msg="File upload failed.File extension not allowed and size must be less than "+maxSizeOfFile;
+            res.send(msg);
 	    }
     }else{
         var count = 0;
@@ -93,33 +103,50 @@ app.post("/shoppingcart", function (req, res) {
         console.log("data", data);
         res.render("shopping-list", {record:data});            
     }
-	// res.end(msg);                                      
 });   
-function oc(a){
-    var o = {};
-    for(var i=0;i<a.length;i++)
-    {
-        o[a[i]]='';
-    }
-    return o;
-}
 
-var parseCSV = function(res){
-    var csv = require('fast-csv');
-    var tmp_record = [];
-    csv
-        .fromPath("upload/product-list-sample.csv")
-        .on("data", function(data){
-            console.log(data);
-            tmp_record.push(data);
-        })
-        .on("end", function(){
-            console.log("done");
-            console.log("record in file", tmp_record);
-            
-            res.render("shopping-list", {record:tmp_record});            
-        });
+app.post("/shoppingcart", function (req, res) { 
+    if(req.files){        
+	    var filename=req.files.file.name;
+        var tmp_record = [];
+        csv
+            .fromPath('upload/' + req.files.file.name)
+            .on("data", function(data){
+                console.log(data);
+                tmp_record.push(data);
+            })
+            .on("end", function(){
+                console.log("done");
+                console.log("record in file", tmp_record);            
+                res.render("shopping-list", {record:tmp_record});            
+            });
+    }else{
+        var count = 0;
+        var data = [];
+        var item = '';
+        for(var k in req.body){
+            if (count%4 == 0){
+                if(item){
+                    data.push(item);
+                }
+                item = [];                
+            }
+            item.push(req.body[k]);
+            count++;
+        }
+        console.log("data", data);
+        res.render("shopping-list", {record:data});            
+    }
+});   
+
+var contains = function(arr, item){
+    for (var i =0; i < arr.length; i++){
+        if (item === arr[i])
+            return true;
+    }
+    return false;
 };
+
 http.createServer(app).listen(app.get('port'), function(){
     console.log('Express server listening on port ' + app.get('port'));
 });
